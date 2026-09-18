@@ -1,18 +1,15 @@
 /* ------------------------------------------------------------------
-   McIntire Capital
-   One memorable element: the skyline pinned to the bottom of the
-   first screen. Everything else is quiet: a pale sky, navy type,
-   hairline-divided cells. Green (from the trees in the illustration)
-   is used only for interactive states.
-   ------------------------------------------------------------------ */
+   McIntire Capital, dark
 
-@font-face {
-  font-family: "Newsreader";
-  src: url("fonts/newsreader-latin-wght-normal.woff2") format("woff2");
-  font-weight: 200 800;
-  font-style: normal;
-  font-display: swap;
-}
+   The page colour is sampled from the photo's sky (#030e1a), and the
+   photo's top and bottom edges fade into it, so the skyline sits in
+   the page instead of on it. Warm amber, taken from the lit windows
+   in the photo, is used only for interactive states.
+
+   Type follows Parker89's structure: a light geometric grotesk for
+   headings (Hanken Grotesk, standing in for the licensed Neue Plak)
+   over Inter for body text.
+   ------------------------------------------------------------------ */
 
 @font-face {
   font-family: "Hanken Grotesk";
@@ -22,18 +19,28 @@
   font-display: swap;
 }
 
-:root {
-  --navy: #10233a;
-  --text: #33465a;
-  --muted: #566677;
-  --sky: #eaf2f9;
-  --mist: #f3f6f9;
-  --line: #d3dde7;
-  --green: #2e7d3a;
-  --white: #fff;
+@font-face {
+  font-family: "Inter";
+  src: url("fonts/inter-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
-  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
-  --sans: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+:root {
+  --bg: #030e1a;
+  --panel: #071624;
+  --panel-hover: #0a1c2d;
+  --line: #16283a;
+  --white: #f4f8fb;
+  --text: #c5d0dc;
+  --muted: #8fa2b5;
+  --amber: #f2b04a;
+  --amber-hover: #f7c374;
+  --on-amber: #0a1520;
+
+  --display: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
 
   --bar: 72px;
   --pad: clamp(20px, 5vw, 48px);
@@ -45,10 +52,11 @@
 *::after { box-sizing: border-box; }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-padding-top: var(--bar);
+  background: var(--bg);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -57,7 +65,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--white);
+  background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
   font-size: 1.0625rem;
@@ -77,14 +85,15 @@ a { color: inherit; }
 a,
 .btn {
   touch-action: manipulation;
-  -webkit-tap-highlight-color: rgb(46 125 58 / 0.18);
+  -webkit-tap-highlight-color: rgb(242 176 74 / 0.2);
 }
+
 img { display: block; max-width: 100%; }
 
-::selection { background: color-mix(in srgb, var(--green) 25%, transparent); }
+::selection { background: rgb(242 176 74 / 0.35); color: var(--white); }
 
 :focus-visible {
-  outline: 2px solid var(--green);
+  outline: 2px solid var(--amber);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -105,9 +114,10 @@ img { display: block; max-width: 100%; }
   top: 12px;
   z-index: 100;
   padding: 10px 14px;
-  background: var(--navy);
-  color: var(--white);
+  background: var(--amber);
+  color: var(--on-amber);
   font-size: 0.9375rem;
+  font-weight: 600;
   text-decoration: none;
   border-radius: 4px;
   transform: translateY(-200%);
@@ -122,12 +132,12 @@ img { display: block; max-width: 100%; }
 }
 
 h2 {
-  font-family: var(--serif);
+  font-family: var(--display);
   font-weight: 400;
   font-size: clamp(2.25rem, 4.4vw, 3.5rem);
   line-height: 1.08;
-  letter-spacing: -0.015em;
-  color: var(--navy);
+  letter-spacing: -0.022em;
+  color: var(--white);
   text-wrap: balance;
 }
 
@@ -154,24 +164,24 @@ h2 {
 }
 
 .bar[data-scrolled] {
-  background: var(--white);
+  background: var(--bg);
   border-bottom-color: var(--line);
 }
 
 .brand {
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-family: var(--display);
+  font-size: 1.375rem;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.01em;
-  color: var(--navy);
+  letter-spacing: -0.015em;
+  color: var(--white);
   text-decoration: none;
   transition: opacity 150ms ease;
 }
 
 .bar-nav {
   display: flex;
-  gap: clamp(18px, 3vw, 36px);
+  gap: clamp(20px, 3vw, 36px);
 }
 
 .bar-nav a {
@@ -179,7 +189,7 @@ h2 {
   padding-block: 12px;
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--navy);
+  color: var(--white);
   text-decoration: none;
 }
 
@@ -190,15 +200,16 @@ h2 {
   right: 0;
   bottom: 9px;
   height: 1px;
-  background: currentColor;
+  background: var(--amber);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 200ms var(--ease-out);
 }
 
 /* ---------------------------------------------------------------
-   Hero: the first screen is exactly one viewport tall (at least),
-   copy centred in the space above, skyline sitting on the bottom edge.
+   Hero: at least one viewport tall. Copy is centred in the space
+   above; the photo sits on the bottom edge and fades into the page
+   colour at its top and bottom, so there is no visible seam.
    --------------------------------------------------------------- */
 
 .hero {
@@ -206,7 +217,7 @@ h2 {
   flex-direction: column;
   min-height: 100vh;
   min-height: 100svh;
-  background: var(--sky);
+  background: var(--bg);
   overflow: hidden;
 }
 
@@ -216,63 +227,45 @@ h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(var(--bar) + 24px) var(--pad) 40px;
+  padding: calc(var(--bar) + 16px) var(--pad) 24px;
   text-align: center;
 }
 
 .hero h1 {
-  max-width: 19em;
-  font-family: var(--serif);
-  font-size: clamp(2.125rem, 4.3vw, 4rem);
+  max-width: 14em;
+  font-family: var(--display);
+  font-size: clamp(2.25rem, 5.6vw, 5.25rem);
   font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.02em;
-  color: var(--navy);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: var(--white);
   text-wrap: balance;
 }
 
 .hero-sub {
   max-width: 34em;
   margin-top: 24px;
-  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  font-size: clamp(1.0625rem, 1.5vw, 1.3125rem);
   line-height: 1.55;
   color: var(--text);
   text-wrap: balance;
 }
 
-/* 2000x440 artwork: natural height is 22vw; on narrow screens it is cropped to the middle */
+/* 2000x573 photo: natural height is 28.65vw; on narrow screens it is cropped to the middle */
 .city {
   width: 100%;
-  height: clamp(170px, 22vw, 520px);
+  height: clamp(260px, 28.65vw, 660px);
   object-fit: cover;
   object-position: 50% 100%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 82%, transparent 100%);
 }
 
 /* ---------------------------------------------------------------
-   About
+   Portfolio: one hairline grid, no cards, no shadows
    --------------------------------------------------------------- */
 
-.about { padding-block: clamp(72px, 9vw, 120px); }
-
-.about-cols {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px clamp(32px, 5vw, 64px);
-  margin-top: clamp(28px, 3.5vw, 44px);
-  font-size: 1.125rem;
-  line-height: 1.7;
-}
-
-.about-cols p { max-width: 34em; }
-
-/* ---------------------------------------------------------------
-   Portfolio: a single hairline grid, no cards, no shadows
-   --------------------------------------------------------------- */
-
-.portfolio {
-  padding-block: clamp(72px, 9vw, 120px);
-  background: var(--mist);
-}
+.portfolio { padding-block: clamp(64px, 8vw, 112px) clamp(72px, 9vw, 120px); }
 
 .grid {
   display: grid;
@@ -289,17 +282,17 @@ h2 {
   flex-direction: column;
   min-height: 260px;
   padding: clamp(24px, 2.6vw, 36px);
-  background: var(--white);
+  background: var(--panel);
   transition: background-color 150ms ease;
 }
 
 .cell h3 {
-  font-family: var(--serif);
-  font-size: 1.75rem;
+  font-family: var(--display);
+  font-size: 1.625rem;
   font-weight: 500;
   line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--navy);
+  letter-spacing: -0.02em;
+  color: var(--white);
 }
 
 .cell p {
@@ -326,7 +319,7 @@ h2 {
 /* The whole cell is the click target; the visible link stays the accessible name */
 .cell-link {
   font-weight: 600;
-  color: var(--green);
+  color: var(--amber);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -339,13 +332,18 @@ h2 {
 }
 
 .cell-link:focus-visible { outline-offset: 0; }
-.cell:has(.cell-link:focus-visible) { outline: 2px solid var(--green); outline-offset: -2px; }
+.cell:has(.cell-link:focus-visible) { outline: 2px solid var(--amber); outline-offset: -2px; }
 
 /* ---------------------------------------------------------------
    Contact
    --------------------------------------------------------------- */
 
-.contact { padding-block: clamp(72px, 9vw, 120px); }
+.contact { padding-block: 0 clamp(72px, 9vw, 120px); }
+
+.contact .wrap {
+  padding-top: clamp(56px, 7vw, 96px);
+  border-top: 1px solid var(--line);
+}
 
 .contact p {
   max-width: 32em;
@@ -359,8 +357,8 @@ h2 {
   min-height: 48px;
   margin-top: 32px;
   padding: 0 26px;
-  background: var(--navy);
-  color: var(--white);
+  background: var(--amber);
+  color: var(--on-amber);
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
@@ -375,9 +373,9 @@ h2 {
    --------------------------------------------------------------- */
 
 .foot {
-  padding-block: clamp(48px, 6vw, 72px);
-  background: var(--navy);
-  color: #c4d0dc;
+  padding-block: clamp(40px, 5vw, 64px);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
 }
 
 .foot-top {
@@ -389,9 +387,10 @@ h2 {
 }
 
 .foot-brand {
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-family: var(--display);
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
   color: var(--white);
 }
 
@@ -406,16 +405,14 @@ h2 {
 
 .foot-legal {
   max-width: 44em;
-  margin-top: 32px;
+  margin-top: 28px;
   padding-top: 28px;
-  border-top: 1px solid rgb(255 255 255 / 0.16);
+  border-top: 1px solid var(--line);
   font-size: 0.875rem;
   line-height: 1.6;
 }
 
 .foot-copy { margin-top: 16px; font-size: 0.875rem; }
-
-.foot :focus-visible { outline-color: var(--white); }
 
 /* ---------------------------------------------------------------
    Motion: one entrance on load, then hover only where hover exists
@@ -428,7 +425,7 @@ h2 {
   }
 
   [data-rise] {
-    animation: lift 900ms var(--ease-out) 200ms both;
+    animation: lift 1000ms var(--ease-out) 200ms both;
   }
 
   @keyframes rise {
@@ -436,16 +433,16 @@ h2 {
   }
 
   @keyframes lift {
-    from { opacity: 0; transform: translateY(28px); }
+    from { opacity: 0; transform: translateY(24px); }
   }
 }
 
 @media (hover: hover) and (pointer: fine) {
   .bar-nav a:hover::after { transform: scaleX(1); }
   .brand:hover { opacity: 0.75; }
-  .cell:has(.cell-link):hover { background: #fafcfd; }
-  .cell-link:hover { color: var(--navy); }
-  .btn:hover { background: #1b3a5c; }
+  .cell:has(.cell-link):hover { background: var(--panel-hover); }
+  .cell-link:hover { color: var(--amber-hover); }
+  .btn:hover { background: var(--amber-hover); }
   .foot-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
 }
 
@@ -458,12 +455,7 @@ h2 {
 }
 
 @media (max-width: 42rem) {
-  .about-cols { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; }
   .cell { min-height: 0; }
-  .brand { font-size: 1.3125rem; }
-}
-
-@media (max-width: 30rem) {
-  .bar-about { display: none; }
+  .brand { font-size: 1.25rem; }
 }
