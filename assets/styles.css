@@ -1,0 +1,469 @@
+/* ------------------------------------------------------------------
+   McIntire Capital
+   One memorable element: the skyline pinned to the bottom of the
+   first screen. Everything else is quiet: a pale sky, navy type,
+   hairline-divided cells. Green (from the trees in the illustration)
+   is used only for interactive states.
+   ------------------------------------------------------------------ */
+
+@font-face {
+  font-family: "Newsreader";
+  src: url("fonts/newsreader-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("fonts/hanken-grotesk-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --navy: #10233a;
+  --text: #33465a;
+  --muted: #566677;
+  --sky: #eaf2f9;
+  --mist: #f3f6f9;
+  --line: #d3dde7;
+  --green: #2e7d3a;
+  --white: #fff;
+
+  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --sans: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  --bar: 72px;
+  --pad: clamp(20px, 5vw, 48px);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: var(--bar);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, p, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+p { text-wrap: pretty; }
+
+a { color: inherit; }
+
+/* No double-tap zoom delay on links and buttons; tap highlight matches the accent */
+a,
+.btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgb(46 125 58 / 0.18);
+}
+img { display: block; max-width: 100%; }
+
+::selection { background: color-mix(in srgb, var(--green) 25%, transparent); }
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip {
+  position: fixed;
+  left: var(--pad);
+  top: 12px;
+  z-index: 100;
+  padding: 10px 14px;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 0.9375rem;
+  text-decoration: none;
+  border-radius: 4px;
+  transform: translateY(-200%);
+}
+.skip:focus { transform: none; }
+
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--pad);
+}
+
+h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.25rem, 4.4vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+/* ---------------------------------------------------------------
+   Header
+   --------------------------------------------------------------- */
+
+.bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: var(--bar);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.bar-in {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.bar[data-scrolled] {
+  background: var(--white);
+  border-bottom-color: var(--line);
+}
+
+.brand {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  text-decoration: none;
+  transition: opacity 150ms ease;
+}
+
+.bar-nav {
+  display: flex;
+  gap: clamp(18px, 3vw, 36px);
+}
+
+.bar-nav a {
+  position: relative;
+  padding-block: 12px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.bar-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 9px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 200ms var(--ease-out);
+}
+
+/* ---------------------------------------------------------------
+   Hero: the first screen is exactly one viewport tall (at least),
+   copy centred in the space above, skyline sitting on the bottom edge.
+   --------------------------------------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--sky);
+  overflow: hidden;
+}
+
+.hero-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--bar) + 24px) var(--pad) 40px;
+  text-align: center;
+}
+
+.hero h1 {
+  max-width: 19em;
+  font-family: var(--serif);
+  font-size: clamp(2.125rem, 4.3vw, 4rem);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  text-wrap: balance;
+}
+
+.hero-sub {
+  max-width: 34em;
+  margin-top: 24px;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+/* 2000x440 artwork: natural height is 22vw; on narrow screens it is cropped to the middle */
+.city {
+  width: 100%;
+  height: clamp(170px, 22vw, 520px);
+  object-fit: cover;
+  object-position: 50% 100%;
+}
+
+/* ---------------------------------------------------------------
+   About
+   --------------------------------------------------------------- */
+
+.about { padding-block: clamp(72px, 9vw, 120px); }
+
+.about-cols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px clamp(32px, 5vw, 64px);
+  margin-top: clamp(28px, 3.5vw, 44px);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+.about-cols p { max-width: 34em; }
+
+/* ---------------------------------------------------------------
+   Portfolio: a single hairline grid, no cards, no shadows
+   --------------------------------------------------------------- */
+
+.portfolio {
+  padding-block: clamp(72px, 9vw, 120px);
+  background: var(--mist);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: clamp(32px, 4vw, 56px);
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  padding: clamp(24px, 2.6vw, 36px);
+  background: var(--white);
+  transition: background-color 150ms ease;
+}
+
+.cell h3 {
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+}
+
+.cell p {
+  max-width: 30em;
+  margin-top: 12px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.cell-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-top: auto;
+  padding-top: 28px;
+  font-size: 0.9375rem;
+}
+
+.tag { color: var(--muted); }
+
+/* The whole cell is the click target; the visible link stays the accessible name */
+.cell-link {
+  font-weight: 600;
+  color: var(--green);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.cell-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.cell-link:focus-visible { outline-offset: 0; }
+.cell:has(.cell-link:focus-visible) { outline: 2px solid var(--green); outline-offset: -2px; }
+
+/* ---------------------------------------------------------------
+   Contact
+   --------------------------------------------------------------- */
+
+.contact { padding-block: clamp(72px, 9vw, 120px); }
+
+.contact p {
+  max-width: 32em;
+  margin-top: 20px;
+  font-size: 1.125rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 32px;
+  padding: 0 26px;
+  background: var(--navy);
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 160ms ease, transform 160ms var(--ease-out);
+}
+
+.btn:active { transform: scale(0.97); }
+
+/* ---------------------------------------------------------------
+   Footer
+   --------------------------------------------------------------- */
+
+.foot {
+  padding-block: clamp(48px, 6vw, 72px);
+  background: var(--navy);
+  color: #c4d0dc;
+}
+
+.foot-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+.foot-brand {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+.foot-nav { display: flex; gap: 28px; }
+
+.foot-nav a {
+  padding-block: 12px;
+  font-size: 0.9375rem;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.foot-legal {
+  max-width: 44em;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid rgb(255 255 255 / 0.16);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.foot-copy { margin-top: 16px; font-size: 0.875rem; }
+
+.foot :focus-visible { outline-color: var(--white); }
+
+/* ---------------------------------------------------------------
+   Motion: one entrance on load, then hover only where hover exists
+   --------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-in] {
+    animation: rise 640ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 80ms + 60ms);
+  }
+
+  [data-rise] {
+    animation: lift 900ms var(--ease-out) 200ms both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+  }
+
+  @keyframes lift {
+    from { opacity: 0; transform: translateY(28px); }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bar-nav a:hover::after { transform: scaleX(1); }
+  .brand:hover { opacity: 0.75; }
+  .cell:has(.cell-link):hover { background: #fafcfd; }
+  .cell-link:hover { color: var(--navy); }
+  .btn:hover { background: #1b3a5c; }
+  .foot-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+}
+
+/* ---------------------------------------------------------------
+   Smaller screens
+   --------------------------------------------------------------- */
+
+@media (max-width: 62rem) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 42rem) {
+  .about-cols { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: 1fr; }
+  .cell { min-height: 0; }
+  .brand { font-size: 1.3125rem; }
+}
+
+@media (max-width: 30rem) {
+  .bar-about { display: none; }
+}
