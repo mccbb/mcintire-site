@@ -262,31 +262,39 @@ h2 {
 }
 
 /* ---------------------------------------------------------------
-   Portfolio: one hairline grid, no cards, no shadows
+   Portfolio: one row per company, a small screenshot at the left
    --------------------------------------------------------------- */
 
 .portfolio { padding-block: clamp(64px, 8vw, 112px) clamp(72px, 9vw, 120px); }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
+.rows {
   margin-top: clamp(32px, 4vw, 56px);
-  background: var(--line);
-  border: 1px solid var(--line);
+  border-top: 1px solid var(--line);
 }
 
-.cell {
+.row {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 260px;
-  padding: clamp(24px, 2.6vw, 36px);
-  background: var(--panel);
-  transition: background-color 150ms ease;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: clamp(20px, 3vw, 44px);
+  padding-block: 24px;
+  border-bottom: 1px solid var(--line);
 }
 
-.cell h3 {
+.row-shot {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 560 / 298;
+  transition: border-color 150ms ease;
+  object-fit: cover;
+  object-position: top;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.row h3 {
   font-family: var(--display);
   font-size: 1.625rem;
   font-weight: 500;
@@ -295,44 +303,39 @@ h2 {
   color: var(--white);
 }
 
-.cell p {
-  max-width: 30em;
-  margin-top: 12px;
+.row-text p {
+  max-width: 34em;
+  margin-top: 8px;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text);
 }
 
-.cell-foot {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 4px 16px;
-  margin-top: auto;
-  padding-top: 28px;
+.tag {
+  display: block;
+  margin-top: 10px;
   font-size: 0.9375rem;
+  color: var(--muted);
 }
 
-.tag { color: var(--muted); }
-
-/* The whole cell is the click target; the visible link stays the accessible name */
-.cell-link {
+/* The whole row is the click target; the visible link stays the accessible name */
+.row-link {
   font-weight: 600;
+  white-space: nowrap;
   color: var(--amber);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
 
-.cell-link::after {
+.row-link::after {
   content: "";
   position: absolute;
   inset: 0;
 }
 
-.cell-link:focus-visible { outline-offset: 0; }
-.cell:has(.cell-link:focus-visible) { outline: 2px solid var(--amber); outline-offset: -2px; }
+.row-link:focus-visible { outline-offset: 0; }
+.row:has(.row-link:focus-visible) { outline: 2px solid var(--amber); outline-offset: -2px; }
 
 /* ---------------------------------------------------------------
    Contact
@@ -440,8 +443,8 @@ h2 {
 @media (hover: hover) and (pointer: fine) {
   .bar-nav a:hover::after { transform: scaleX(1); }
   .brand:hover { opacity: 0.75; }
-  .cell:has(.cell-link):hover { background: var(--panel-hover); }
-  .cell-link:hover { color: var(--amber-hover); }
+  .row:hover .row-shot { border-color: var(--muted); }
+  .row-link:hover { color: var(--amber-hover); }
   .btn:hover { background: var(--amber-hover); }
   .foot-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
 }
@@ -450,12 +453,16 @@ h2 {
    Smaller screens
    --------------------------------------------------------------- */
 
-@media (max-width: 62rem) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 52rem) {
+  .row { grid-template-columns: 160px minmax(0, 1fr); row-gap: 14px; }
+  .row-link { grid-column: 2; justify-self: start; }
 }
 
-@media (max-width: 42rem) {
-  .grid { grid-template-columns: 1fr; }
-  .cell { min-height: 0; }
+@media (max-width: 36rem) {
+  .row { grid-template-columns: 1fr; }
+  .row-shot { max-width: 320px; }
+  .row-link { grid-column: 1; }
   .brand { font-size: 1.25rem; }
+  .bar-nav { gap: 18px; }
+  .bar-nav a[href="#portfolio"] { display: none; }
 }
