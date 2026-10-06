@@ -82,6 +82,9 @@ html { scrollbar-color: #24394d var(--bg); }
 
 .rv-cta { margin-top: 28px; }
 
+/* Stands in for the video until it exists: keeps the button clear of the intro copy */
+.rv-spacer { height: clamp(12px, 3vh, 32px); }
+
 .rv-note {
   max-width: 26em;
   margin: 14px auto 0;
