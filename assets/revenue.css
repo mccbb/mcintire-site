@@ -379,6 +379,8 @@ html { scrollbar-color: #24394d var(--bg); }
   color: var(--muted);
 }
 
+.rv-cal-msg[hidden] { display: none; }
+
 .rv-cal-alt { margin-top: 16px; font-size: 0.9375rem; color: var(--muted); }
 .rv-cal-alt a { color: var(--text); }
 
